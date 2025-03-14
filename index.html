@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>英语单词消消乐</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 50px;
+        }
+        .word {
+            font-size: 24px;
+            margin: 20px;
+        }
+        .message {
+            font-size: 18px;
+            color: green;
+        }
+    </style>
+</head>
+<body>
+    <h1>英语单词消消乐</h1>
+    <div id="game">
+        <p class="word" id="word"></p>
+        <input type="text" id="input" placeholder="输入中文释义">
+        <button onclick="checkMatch()">提交</button>
+        <p class="message" id="message"></p>
+        <p>正确匹配数: <span id="correctCount">0</span></p>
+    </div>
+
+    <script>
+        const wordBank = {
+            "apple": "苹果",
+            "banana": "香蕉",
+            "cat": "猫",
+            "dog": "狗",
+            "elephant": "大象",
+            "fish": "鱼",
+            "grape": "葡萄",
+            "house": "房子",
+            "ice cream": "冰淇淋",
+            "juice": "果汁",
+            "kite": "风筝",
+            "lion": "狮子",
+            "monkey": "猴子",
+            "nest": "鸟巢",
+            "orange": "橙子",
+            "pencil": "铅笔",
+            "queen": "女王",
+            "rabbit": "兔子",
+            "snake": "蛇",
+            "tiger": "老虎"
+        };
+
+        let dailyWords = Object.keys(wordBank).sort(() => Math.random() - 0.5).slice(0, 20);
+        let correctCount = 0;
+        let currentWord = dailyWords[0];
+
+        function updateWord() {
+            document.getElementById("word").innerText = currentWord;
+        }
+
+        function checkMatch() {
+            const userMeaning = document.getElementById("input").value;
+            if (wordBank[currentWord] === userMeaning) {
+                correctCount++;
+                document.getElementById("message").innerText = "正确！";
+                if (correctCount === 10) {
+                    alert("你真棒！");
+                }
+                if (correctCount >= 20) {
+                    alert("已完成今日小游戏，请明天继续。");
+                    return;
+                }
+            } else {
+                document.getElementById("message").innerText = `错误！正确释义是: ${wordBank[currentWord]}`;
+            }
+            document.getElementById("correctCount").innerText = correctCount;
+            dailyWords = dailyWords.filter(word => word !== currentWord);
+            currentWord = dailyWords[0];
+            updateWord();
+        }
+
+        updateWord();
+    </script>
+</body>
+</html>
